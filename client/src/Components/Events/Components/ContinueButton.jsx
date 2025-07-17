@@ -1,10 +1,11 @@
 import { Button } from "@mui/material";
 import React from "react";
 
-const ContinueButton = () => {
+const ContinueButton = ({handleClick}) => {
   return (
     <Button
       variant="outlined"
+      onClick={()=>handleClick()}
       sx={{
         borderRadius: "25px", // Matches the dropdown
         color: "#333",

@@ -1,8 +1,13 @@
 import React from "react";
 import { AppBar, Box, Toolbar, Typography, Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../Context/AuthContext";
+import LoginButton from "../Components/Common/LoginButton";
 
 const NavBar = () => {
+  const { isAuthenticated } = useContext(AuthContext);
+
   const navLinks = [
     { id: 1, name: "Home", to: "/" },
     { id: 2, name: "Admin", to: "/admin" },
@@ -12,32 +17,23 @@ const NavBar = () => {
   return (
     <AppBar
       position="sticky"
-      elevation={3}
+      elevation={4}
       sx={{
-        backgroundColor: "#ffffff",
-        borderBottom: "1px solid #e0e0e0",
+        background: "linear-gradient(90deg, #62209fff 0%, #38429fff 100%)",
         px: { xs: 2, md: 5 },
+        py: 1,
       }}
     >
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Typography
-          variant="h5"
-          fontWeight="bold"
-          sx={{
-            background: "linear-gradient(90deg, #ff416c, #ff4b2b)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            fontFamily: "monospace",
-            letterSpacing: 1,
-          }}
-        >
-          Eventify
+        <Typography variant="h5" fontWeight="bolder">
+          Event Management
         </Typography>
 
+        {/* Navigation Links */}
         <Box
           sx={{
             display: "flex",
-            gap: { xs: 1, sm: 3 },
+            gap: { xs: 1.5, sm: 4 },
             alignItems: "center",
           }}
         >
@@ -45,12 +41,14 @@ const NavBar = () => {
             <Link key={item.id} to={item.to} style={{ textDecoration: "none" }}>
               <Button
                 sx={{
-                  fontWeight: 600,
-                  color: "#333",
-                  borderRadius: 2,
+                  color: "#ffffff",
+                  fontWeight: 500,
                   textTransform: "capitalize",
+                  borderRadius: 2,
+                  transition: "all 0.3s ease",
                   "&:hover": {
-                    backgroundColor: "rgba(0, 0, 0, 0.05)",
+                    backgroundColor: "rgba(255,255,255,0.15)",
+                    transform: "translateY(-2px)",
                   },
                 }}
               >
@@ -59,26 +57,12 @@ const NavBar = () => {
             </Link>
           ))}
 
-          <Button
-            variant="contained"
-            sx={{
-              background: "linear-gradient(45deg, #36d1dc, #5b86e5)",
-              color: "white",
-              fontWeight: "bold",
-              textTransform: "none",
-              px: 3,
-              py: 1,
-              borderRadius: 3,
-              boxShadow: "0 4px 10px rgba(91, 134, 229, 0.4)",
-              transition: "transform 0.3s ease",
-              "&:hover": {
-                transform: "scale(1.05)",
-                background: "linear-gradient(45deg, #5b86e5, #36d1dc)",
-              },
-            }}
-          >
-            Sign Up
-          </Button>
+          {/* Login Button */}
+
+          {
+            isAuthenticated ? <LoginButton label={"Logout"} mode={"Logout"} /> : <LoginButton label={"Login"}mode={"Login"} />
+          }
+          
         </Box>
       </Toolbar>
     </AppBar>

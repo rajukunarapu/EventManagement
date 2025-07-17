@@ -1,16 +1,19 @@
-import React from "react";
-import { Box, Stack, Typography, Link } from "@mui/material";
-import { useState } from "react";
+import React, { useState } from "react";
+import { Box, Stack, Typography, Link, Divider } from "@mui/material";
 import EmailTypeField from "./Components/EmailTypeField";
 import PasswordTypeField from "./Components/PasswordTypeField";
-import ContinueButton from "./Components/ContinueButton";
-import { useNavigate } from "react-router-dom";
 import TextTypeField from "./Components/TextTypeField";
+import ContinueButton from "./Components/ContinueButton";
 import Dropdown from "../HeroSection/Dropdown";
+import { useNavigate } from "react-router-dom";
 import { signupAPI } from "../../Services/signupAPI";
+import { useContext } from "react";
+import { AuthContext } from "../../Context/AuthContext";
 
 const SignUpCard = () => {
+
   const navigate = useNavigate();
+  const { authCheck } = useContext(AuthContext)
 
   const [fullName, setfullName] = useState("");
   const [emailId, setemailId] = useState("");
@@ -23,11 +26,11 @@ const SignUpCard = () => {
   const [isResponseAlertShow, setisResponseAlertShow] = useState(false);
 
   const userData = {
-    fullName: fullName,
-    emailId: emailId,
-    password: password,
-    role: role,
-    adminCode: adminCode,
+    fullName,
+    emailId,
+    password,
+    role,
+    adminCode,
   };
 
   const handleClick = async () => {
@@ -41,79 +44,100 @@ const SignUpCard = () => {
       if (data.success) {
         setemailId("");
         setpassword("");
+        await authCheck();
         navigate("/");
       }
     }
   };
 
   return (
-    <>
+    <Box
+      minHeight={"600px"}
+      display={"flex"}
+      justifyContent={"center"}
+      alignItems={"center"}
+      sx={{
+        background: "linear-gradient(to right, #83a4d4, #b6fbff)",
+        padding: 4,
+      }}
+    >
       <Box
-        maxHeight={"600px"}
-        sx={{
-          m: 5,
-          backgroundColor: "whitesmoke",
-          padding: 5,
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
+        display={"flex"}
+        borderRadius={4}
+        boxShadow={5}
+        overflow={"hidden"}
+        width={{ xs: "95%", md: "65%" }}
+        height="500px"
       >
-        <Stack
-          direction={"column"}
-          position={"relative"}
-          maxHeight={"450px"}
-          width={"25%"}
-          p={"30px"}
-          height={"100%"}
-          sx={{ backgroundColor: "rgb(40, 116, 240)", height : "470px" }}
+        {/* Left Section */}
+        <Box
+          flex={1}
+          sx={{
+            background: "linear-gradient(135deg, #667eea, #764ba2)",
+            color: "white",
+            p: 5,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+          }}
         >
-          <Typography variant="h5" color="white" fontWeight={"bold"}>
+          <Typography variant="h4" fontWeight={"bold"} gutterBottom>
             Looks like you're new here!
           </Typography>
-          <Typography variant="h6" mt={2} sx={{ color: "#dbdbdb" }}>
-            Sign up with your mobile number to get started
+          <Typography variant="subtitle1" sx={{ color: "#e0e0e0" }}>
+            Sign up with your email to get started on your journey.
           </Typography>
-        </Stack>
+          <Divider sx={{ my: 3, backgroundColor: "white", opacity: 0.3 }} />
+          <Typography variant="caption" sx={{ color: "#d1d1d1" }}>
+            Create an account to explore events, venues, and more.
+          </Typography>
+        </Box>
 
+        {/* Right Section */}
         <Stack
-          direction={"column"}
-          maxHeight={"470px"}
-          width={"30%"}
-          p={"30px"}
-          alignItems={"center"}
-          sx={{ backgroundColor: "white", height:"450px" }}
+          flex={1}
+          spacing={2}
+          p={5}
+          sx={{
+            backgroundColor: "white",
+            justifyContent: "center",
+            borderTopRightRadius: 4,
+            borderBottomRightRadius: 4,
+          }}
         >
+          <Typography variant="h5" fontWeight={"600"} color="primary">
+            Create Account
+          </Typography>
+
           <TextTypeField
             value={fullName}
             setValue={setfullName}
-            label={"Enter fullName"}
+            label={"Enter Full Name"}
           />
           <EmailTypeField
             value={emailId}
             setValue={setemailId}
-            label={"Enter emailId"}
+            label={"Enter Email"}
             isValidationAlertShow={isValidationAlertShow}
           />
           <PasswordTypeField
             value={password}
             setValue={setpassword}
-            label={"Enter password"}
+            label={"Enter Password"}
             isValidationAlertShow={isValidationAlertShow}
           />
           <Dropdown
             list={["user", "admin"]}
             value={role}
             setValue={setrole}
-            label={"Choose the role"}
-            width = "100%"
+            label={"Choose Role"}
+            width="100%"
           />
           {role === "admin" && (
             <TextTypeField
               value={adminCode}
               setValue={setadminCode}
-              label={"Enter code"}
+              label={"Enter Admin Code"}
             />
           )}
 
@@ -123,18 +147,22 @@ const SignUpCard = () => {
             isAlertSuccess={isSuccess}
             isResponseAlertShow={isResponseAlertShow}
           />
+
           <Link
             underline="hover"
-            href={"/login"}
-            mt={3}
-            fontWeight={"bold"}
-            sx={{ cursor: "pointer", "&:hover": { color: "red" } }}
+            href="/login"
+            fontWeight={"500"}
+            sx={{
+              textAlign: "center",
+              mt: 1,
+              "&:hover": { color: "#ff4081", transition: "0.3s" },
+            }}
           >
-            Existing User? Log in
+            Already have an account? <strong>Login</strong>
           </Link>
         </Stack>
       </Box>
-    </>
+    </Box>
   );
 };
 

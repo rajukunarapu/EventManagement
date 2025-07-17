@@ -1,10 +1,17 @@
 import React from 'react'
+import NavBar from '../Layouts/NavBar'
+import HeroSection from '../Layouts/HeroSection'
+import Footer from '../Layouts/Footer'
+import AdminWrapper from '../Components/Admin/Components/AdminWrapper'
 
 const AdminPage = () => {
   return (
-    <div>
-      
-    </div>
+    <>
+        <NavBar/>
+        <HeroSection/>
+        <AdminWrapper/>
+        <Footer/>
+    </>
   )
 }
 

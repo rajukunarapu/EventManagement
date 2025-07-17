@@ -3,6 +3,7 @@ const cors = require('cors')
 const cookieParser = require('cookie-parser')
 
 const userRoutes = require('./Routers/userRoutes')
+const eventRoutes = require('./Routers/eventRoutes')
 
 const app = express();
 
@@ -21,10 +22,11 @@ app.use(cors({
       return callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true // if you're using cookies/auth headers
+  credentials: true // cookies/auth headers
 }));
 
 app.use('/user',userRoutes)
+app.use('/event',eventRoutes)
 
 
 
