@@ -1,17 +1,33 @@
 import { Box, Stack, Typography, useMediaQuery } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Dropdown from "../Components/HeroSection/Dropdown";
 import SelectButton from "../Components/HeroSection/SelectButton";
 import { categoriesList, LocationList } from "../utils/HeroSectionHelper";
+import { AuthContext } from "../Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const HeroSection = ({ title }) => {
+  const { isAuthenticated } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const [categories, setcategories] = useState("");
   const [location, setLocation] = useState("");
   const isMobile = useMediaQuery("(max-width: 600px)");
 
+  const handleClick = () => {
+    if (categories !== "" && location !== "") {
+      if (isAuthenticated) {
+        return navigate("/events");
+      } else {
+        return navigate("/login");
+      }
+    }
+  };
+
   return (
     <Box
       sx={{
+        m:4,
         height: isMobile ? "auto" : "340px",
         p: 5,
         background: "linear-gradient(120deg, #ffe4e1, #ffecd2, #fbd3e9)",
@@ -19,7 +35,7 @@ const HeroSection = ({ title }) => {
         flexDirection: "column",
         justifyContent: "flex-end",
         alignItems: "center",
-        borderRadius: "0 0 40px 40px",
+        borderRadius: "40px",
         gap: 3,
       }}
     >
@@ -51,16 +67,14 @@ const HeroSection = ({ title }) => {
           value={categories}
           setValue={setcategories}
           label="Select Category"
-          size="medium"
         />
         <Dropdown
           list={LocationList}
           value={location}
           setValue={setLocation}
           label="Select Location"
-          size="medium"
         />
-        <SelectButton />
+        <SelectButton handleClick={handleClick} />
       </Stack>
     </Box>
   );

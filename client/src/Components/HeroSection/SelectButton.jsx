@@ -2,12 +2,13 @@ import { Button } from "@mui/material";
 import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 
-const SelectButton = () => {
+const SelectButton = ({handleClick}) => {
   return (
     <Button
       variant="contained"
       color="primary"
       endIcon={<SearchIcon />}
+      onClick={()=>handleClick()}
       sx={{
         px: 5,
         py: 1.5,

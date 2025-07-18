@@ -1,14 +1,14 @@
 import React from 'react'
 import NavBar from '../Layouts/NavBar'
 import Footer from '../Layouts/Footer'
-import HeroSection from '../Layouts/HeroSection'
 import EventWrapper from '../Components/Events/EventWrapper'
+import EventBackground from '../Components/Events/Components/EventBackground'
 
 const EventsPage = () => {
   return (
     <>
         <NavBar/>
-        <HeroSection title={true} />
+        <EventBackground/>
         <EventWrapper/>
         <Footer/>
     </>

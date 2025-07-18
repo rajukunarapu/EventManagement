@@ -1,11 +1,12 @@
-import { Button } from "@mui/material";
+import { Button, Snackbar } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { logoutAPI } from "../../Services/logoutAPI";
 import { useContext } from "react";
 import { AuthContext } from "../../Context/AuthContext";
+import { PlaylistAddCheckCircleRounded } from "@mui/icons-material";
 
-const LoginButton = ({label, mode}) => {
+const LoginButton = ({label, mode,  setlogoutAlertShow}) => {
   const navigate = useNavigate();
   const { authCheck } = useContext(AuthContext)
 
@@ -13,10 +14,15 @@ const LoginButton = ({label, mode}) => {
     if(mode === "Login"){
       return navigate('/login')
     }else{
-      await logoutAPI();
+      const res = await logoutAPI();
+      if(res.success){
+        setlogoutAlertShow(res.success)
+      }
       await authCheck();
     }
   }
+
+  
 
   return (
     <>
@@ -40,6 +46,7 @@ const LoginButton = ({label, mode}) => {
       >
         {label}
       </Button>
+
     </>
   );
 };

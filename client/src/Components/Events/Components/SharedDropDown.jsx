@@ -1,16 +1,23 @@
 import React from "react";
-import { Autocomplete, TextField, useTheme } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  useTheme,
+} from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
 
 const SharedDropDown = ({ list, value, setValue, label }) => {
   const theme = useTheme();
 
   return (
-    <Autocomplete
-      size="small"
+    <Box
       sx={{
         width: 200,
-        "& .MuiOutlinedInput-root": {
+        mb: 1,
+        "& .MuiInputBase-root": {
           borderRadius: "50px",
           backgroundColor: "#f9f9f9",
           fontWeight: 500,
@@ -19,18 +26,38 @@ const SharedDropDown = ({ list, value, setValue, label }) => {
             backgroundColor: "#f0f0f0",
           },
         },
-        "& .MuiAutocomplete-popupIndicator": {
+        "& .MuiSelect-icon": {
           color: theme.palette.primary.main,
         },
       }}
-      options={list}
-      value={value}
-      onChange={(event, newValue) => newValue && setValue(newValue)}
-      popupIcon={<ExpandMore />}
-      renderInput={(params) => (
-        <TextField {...params} label={label} variant="outlined" />
-      )}
-    />
+    >
+      <FormControl fullWidth variant="outlined" size="small">
+        <InputLabel
+          sx={{
+            fontWeight: 500,
+            color: "#888",
+            "&.Mui-focused": {
+              color: theme.palette.primary.main,
+            },
+          }}
+        >
+          {label}
+        </InputLabel>
+
+        <Select
+          value={value}
+          label={label}
+          onChange={(e) => setValue(e.target.value)}
+          IconComponent={ExpandMore}
+        >
+          {list.map((item, idx) => (
+            <MenuItem key={idx} value={item}>
+              {item}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </Box>
   );
 };
 

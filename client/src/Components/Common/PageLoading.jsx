@@ -1,0 +1,28 @@
+import React from 'react'
+// import logo from './logo.svg'
+import { Box, LinearProgress } from '@mui/material'
+
+const PageLoading = () => {
+  return (
+    <>
+        <Box sx={{ position : "fixed", top : "30%", left:"45%", display:"flex", flexDirection :"column", justifyContent:"center", alignItems : "center" }} >
+            <svg
+                width="40"
+                height="45"
+                viewBox="0 0 24 24"
+                fill={'red'}
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M7.8 9.685c4.7-1.582 5.5-5.703 4.9-9.492 0-.137.12-.234.24-.176 4.5 2.13 9.56 6.797 9.56 13.828C22.5 19.235 18.22 24 12 24 5.36 24 1.5 19.371 1.5 13.845c0-3.223 2.34-6.543 4.86-7.95.12-.077.28 0 .28.138.06.722.26 2.558 1.08 3.632.02.02.06.02.08.02"
+                  clipRule="evenodd"
+                />
+            </svg>
+            <LinearProgress sx={{ mt: "10px", borderRadius: 10, width:"150px" }} color="success" />
+        </Box>
+    </>
+  )
+}
+
+export default PageLoading

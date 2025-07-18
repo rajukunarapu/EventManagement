@@ -1,43 +1,48 @@
-import { Autocomplete, TextField } from '@mui/material';
-import React from 'react';
+import React from "react";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Box,
+} from "@mui/material";
 
-const Dropdown = ({ list, value, setValue, label, width, size = "medium" }) => {
+const Dropdown = ({ list, value, setValue, label, width = "250px" }) => {
   return (
-    <Autocomplete
+    <Box
       sx={{
         mt: 1,
         mb: 1,
-        width: width ? "100%" : "250px",
+        width: width,
         background: "#fff",
         borderRadius: "12px",
         boxShadow: "0 4px 10px rgba(0,0,0,0.05)",
         transition: "all 0.3s ease-in-out",
-        '&:hover': {
+        "&:hover": {
           boxShadow: "0 6px 14px rgba(0,0,0,0.1)",
         },
-        '& .MuiOutlinedInput-root': {
-          borderRadius: "12px",
-        },
-        '& .MuiAutocomplete-popupIndicator': {
-          color: '#ff7043',
-        },
       }}
-      options={list}
-      value={value}
-      onChange={(event, newValue) => {
-        if (newValue) setValue(newValue);
-      }}
-      size={size}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label={label}
-          variant="outlined"
+    >
+      <FormControl fullWidth>
+        <InputLabel
           sx={{
-            "& .MuiInputLabel-root": {
-              color: "#888",
-              fontWeight: 500,
+            color: "#888",
+            fontWeight: 500,
+            "&.Mui-focused": {
+              color: "#ff5722",
             },
+          }}
+        >
+          {label}
+        </InputLabel>
+
+        <Select
+          value={value}
+          label={label}
+          onChange={(e) => setValue(e.target.value)}
+          sx={{
+            borderRadius: "12px",
+            backgroundColor: "#fff",
             "& .MuiOutlinedInput-notchedOutline": {
               borderColor: "#ffb199",
             },
@@ -48,9 +53,15 @@ const Dropdown = ({ list, value, setValue, label, width, size = "medium" }) => {
               borderColor: "#ff5722",
             },
           }}
-        />
-      )}
-    />
+        >
+          {list.map((item, index) => (
+            <MenuItem key={index} value={item}>
+              {item}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </Box>
   );
 };
 
