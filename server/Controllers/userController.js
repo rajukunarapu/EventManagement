@@ -21,7 +21,7 @@ exports.signUpController = async (req, res) => {
 
         res
             .cookie("token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
-            .json({ message: "SignUp successfull", success: true });
+            .json({ message: "SignUp successfull", success: true , document : document });
 
     } catch (error) {
         res.status(400).json({ message: error.message, success: false });
@@ -48,7 +48,7 @@ exports.loginController = async (req, res) => {
 
         res
             .cookie("token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
-            .json({ message: "Login successfull", success: true });
+            .json({ message: "Login successfull", success: true, document : document });
 
     } catch (error) {
         res.status(400).json({ message: error.message, success: false });

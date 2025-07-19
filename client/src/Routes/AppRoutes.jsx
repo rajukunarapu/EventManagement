@@ -4,11 +4,12 @@ import { lazy, Suspense } from "react";
 import PageLoading from "../Components/Common/PageLoading";
 import { useContext } from "react";
 import { AuthContext } from "../Context/AuthContext";
+import ProtectedMessage from "../Components/Protected/ProtectedMessage";
 
 const AppRoutes = () => {
 
     // Form context object
-    const { isAuthenticated, loading } = useContext(AuthContext);
+    const { isAuthenticated, loading, userData } = useContext(AuthContext);
 
     // For Loading while getting response from API after refresh 
     if(loading){
@@ -35,7 +36,7 @@ const AppRoutes = () => {
                         <Route
                             path="/admin"
                             element={
-                                isAuthenticated ? <Admin /> : <Navigate to="/login" replace />
+                                isAuthenticated ? (userData.role ==="admin" ? <Admin/> : <ProtectedMessage/>) : <Navigate to="/login" replace />
                             }
                         />
                         <Route

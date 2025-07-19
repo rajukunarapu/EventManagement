@@ -11,7 +11,7 @@ import { AuthContext } from "../../Context/AuthContext";
 const LoginCard = () => {
 
   const navigate = useNavigate();
-  const { authCheck } = useContext(AuthContext)
+  const { authCheck, setUserData } = useContext(AuthContext)
   const [emailId, setemailId] = useState("");
   const [password, setpassword] = useState("");
   const [isValidationAlertShow, setisValidationAlertShow] = useState(false);
@@ -30,6 +30,7 @@ const LoginCard = () => {
       if (data.success) {
         setemailId("");
         setpassword("");
+        setUserData(data.userData)
         await authCheck();
         navigate("/");
       }

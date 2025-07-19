@@ -13,7 +13,7 @@ import { AuthContext } from "../../Context/AuthContext";
 const SignUpCard = () => {
 
   const navigate = useNavigate();
-  const { authCheck } = useContext(AuthContext)
+  const { authCheck, setUserData } = useContext(AuthContext)
 
   const [fullName, setfullName] = useState("");
   const [emailId, setemailId] = useState("");
@@ -25,7 +25,7 @@ const SignUpCard = () => {
   const [isSuccess, setisSuccess] = useState(false);
   const [isResponseAlertShow, setisResponseAlertShow] = useState(false);
 
-  const userData = {
+  const userPayload = {
     fullName,
     emailId,
     password,
@@ -37,13 +37,14 @@ const SignUpCard = () => {
     setisValidationAlertShow(true);
     if (emailId !== "" && password !== "") {
       setisValidationAlertShow(false);
-      const data = await signupAPI(userData);
+      const data = await signupAPI(userPayload);
       setresponseMessage(data.message);
       setisSuccess(data.success);
       setisResponseAlertShow(true);
       if (data.success) {
         setemailId("");
         setpassword("");
+        setUserData(data.userData)
         await authCheck();
         navigate("/");
       }

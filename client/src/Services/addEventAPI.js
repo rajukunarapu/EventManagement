@@ -10,7 +10,7 @@ export const addEventAPI = async (data) => {
         });
         return { success: res.data.success, message: res.data.message }
     } catch (error) {
-        console.log(error.message)
+        console.log(error)
         if (error.response && error.response.data) {
             return {
                 success: false,

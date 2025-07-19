@@ -8,7 +8,7 @@ export const loginAPI = async (data) => {
             },
             withCredentials: true
         });
-        return { success: res.data.success, message: res.data.message }
+        return { success: res.data.success, message: res.data.message, userData : res.data.success && res.data.document }
     } catch (error) {
         console.log(error.message)
         if (error.response && error.response.data) {

@@ -9,6 +9,9 @@ const AuthProviderWrapper = ({children}) => {
     //For AUthentication based routes
     const [isAuthenticated, setIsAuthenticated] = useState(false)
 
+    //For user document form successfull signUp
+    const [userData, setUserData] = useState([])
+
     //Loading when refreshing and getting response from API
     const [loading, setLoading] = useState(true)
 
@@ -25,7 +28,7 @@ const AuthProviderWrapper = ({children}) => {
 
   return (
     <>
-        <AuthContext.Provider value={{isAuthenticated, loading, authCheck}} >
+        <AuthContext.Provider value={{isAuthenticated, loading, authCheck, userData, setUserData}} >
             {children}
         </AuthContext.Provider>
 

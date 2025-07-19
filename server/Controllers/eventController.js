@@ -1,9 +1,18 @@
 const Event = require("../Models/EventModel");
+const { URLValidation, typeValidation, guestCapacityValidation, ratingValidation, nameValidation, locationValidation } = require("../Validations/eventValidations");
 
 // Add New Event
 exports.addEventController = async (req, res) => {
     try {
         const { name, location, image, type, guestCapacity, rating } = req.body;
+
+        // data sanitization
+        nameValidation(name);
+        locationValidation(location);
+        URLValidation(image)
+        typeValidation(type)
+        guestCapacityValidation(guestCapacity)
+        ratingValidation(rating)
 
         const document = await Event.create({
             name,
