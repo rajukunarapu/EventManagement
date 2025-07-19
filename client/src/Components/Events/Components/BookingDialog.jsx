@@ -2,15 +2,15 @@ import React from 'react'
 import { Button, Dialog, DialogActions, DialogContent } from '@mui/material'
 import EventCard from './EventCard'
 
-const BookingDialog = ({ open, setVenueClick }) => {
+const BookingDialog = ({ open, setIsVenueClicked }) => {
   return (
     <>
-        <Dialog open={open} onClose={()=>setVenueClick(false)} >
+        <Dialog open={open} onClose={()=>setIsVenueClicked(false)} >
             <DialogContent>
-                <EventCard />
+                <EventCard  />
             </DialogContent>
             <DialogActions>
-                <Button variant='contained' onClick={()=>setVenueClick(false)} color='error' sx={{}} >Cancel</Button>
+                <Button variant='contained' onClick={()=>setIsVenueClicked(false)} color='error' sx={{}} >Cancel</Button>
                 <Button variant='contained' color='secondary' >Book Event</Button>
             </DialogActions>
         </Dialog>

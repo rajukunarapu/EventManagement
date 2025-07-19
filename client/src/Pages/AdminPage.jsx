@@ -1,15 +1,15 @@
 import React from 'react'
 import NavBar from '../Layouts/NavBar'
-import HeroSection from '../Layouts/HeroSection'
 import Footer from '../Layouts/Footer'
-import AdminWrapper from '../Components/Admin/Components/AdminWrapper'
+import AdminMainWrapper from '../Components/Admin/Components/AdminMainWrapper'
+import AdminHeroSection from '../Components/Admin/Components/AdminHeroSection'
 
 const AdminPage = () => {
   return (
     <>
         <NavBar/>
-        <HeroSection/>
-        <AdminWrapper/>
+        <AdminHeroSection/>
+        <AdminMainWrapper/>
         <Footer/>
     </>
   )

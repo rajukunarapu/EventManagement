@@ -21,9 +21,9 @@ const PopularVenues = () => {
       >
         {venues.map((item) => {
           return (
-            <Box key={item.id} sx={{ width: "300px", height: "400px" }}>
+            <Box key={item.id} sx={{ width: "300px", height: "400px" }} onClick={()=>navigate('/events')} >
               <Box
-                onClik={()=>navigate('/events')}
+                
                 sx={{
                   width: "100%",
                   height: "80%",

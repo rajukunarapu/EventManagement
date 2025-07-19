@@ -1,19 +1,17 @@
-import { Button } from "@mui/material";
 import React from "react";
-import SearchIcon from "@mui/icons-material/Search";
+import { Button } from "@mui/material";
 
-const SelectButton = ({handleClick}) => {
+const SearchButton = ({handleClick}) => {
   return (
     <Button
       variant="contained"
       color="primary"
-      endIcon={<SearchIcon />}
       onClick={()=>handleClick()}
       sx={{
         px: 5,
         py: 1.5,
         borderRadius: "25px",
-        background: "linear-gradient(135deg, #ff9a9e, #fad0c4)",
+        background: "linear-gradient(135deg, #aecf35ff, #16b42bff)",
         color: "#fff",
         fontWeight: "bold",
         fontSize: "16px",
@@ -21,8 +19,8 @@ const SelectButton = ({handleClick}) => {
         boxShadow: "0px 6px 15px rgba(0,0,0,0.1)",
         transition: "all 0.3s ease-in-out",
         "&:hover": {
-          background: "linear-gradient(135deg, #fad0c4, #ff9a9e)",
-          transform: "scale(1.05)",
+          background: "linear-gradient(135deg, #22aca5ff, #127642ff)",
+          transform: "scale(1.01)",
         },
       }}
     >
@@ -31,4 +29,4 @@ const SelectButton = ({handleClick}) => {
   );
 };
 
-export default SelectButton;
+export default SearchButton;

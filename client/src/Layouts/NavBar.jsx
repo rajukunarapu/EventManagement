@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   AppBar,
   Box,
@@ -8,14 +8,18 @@ import {
   Stack,
   Snackbar,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
 import LoginButton from "../Components/Common/LoginButton";
 import MuiAlert from "@mui/material/Alert";
 
 const NavBar = () => {
   const { isAuthenticated } = useContext(AuthContext);
+  const location = useLocation();
+
+  // showing logout alert
   const [logoutAlertShow, setlogoutAlertShow] = useState(false);
+  // For changing background of navbar
   const [scrolled, setScrolled] = useState(false);
 
   const navLinks = [
@@ -45,7 +49,7 @@ const NavBar = () => {
         sx={{
           background: scrolled
             ? "#ffffff"
-            : "linear-gradient(90deg, #ff6a00 0%, #ee0979 100%)",
+            : "linear-gradient(to right, #1f1c2c, #928dab, #3a3a52, #373b44)",
           transition: "background 0.3s ease-in-out",
           px: { xs: 2, md: 5 },
           py: 1,
@@ -59,7 +63,7 @@ const NavBar = () => {
               width="40"
               height="45"
               viewBox="0 0 25 25"
-              fill={scrolled ? "#70ca40" : "#a9186fff"}
+              fill={scrolled ? "#70ca40" : "#3ca918ff"}
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
@@ -80,31 +84,42 @@ const NavBar = () => {
               alignItems: "center",
             }}
           >
-            {navLinks.map((item) => (
-              <Link
-                key={item.id}
-                to={item.to}
-                style={{ textDecoration: "none" }}
-              >
-                <Button
-                  sx={{
-                    color: scrolled ? "#000" : "#fff",
-                    fontWeight: 500,
-                    textTransform: "capitalize",
-                    borderRadius: 2,
-                    transition: "all 0.3s ease",
-                    "&:hover": {
-                      backgroundColor: scrolled
-                        ? "rgba(0,0,0,0.05)"
-                        : "rgba(255,255,255,0.15)",
-                      transform: "translateY(-2px)",
-                    },
-                  }}
+            {navLinks.map((item) => {
+              const isActive = location.pathname === item.to;
+              return (
+                <Link
+                  key={item.id}
+                  to={item.to}
+                  style={{ textDecoration: "none" }}
                 >
-                  {item.name}
-                </Button>
-              </Link>
-            ))}
+                  <Button
+                    sx={{
+                      color: scrolled ? "#000" : "#fff",
+                      fontWeight: 500,
+                      textTransform: "capitalize",
+                      borderRadius: 2,
+                      borderBottom: isActive
+                        ? `3px solid ${scrolled ? "#000" : "#fff"}`
+                        : "none",
+                      backgroundColor: isActive
+                        ? scrolled
+                          ? "#f0f0f0"
+                          : "rgba(255,255,255,0.2)"
+                        : "transparent",
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        backgroundColor: scrolled
+                          ? "rgba(0,0,0,0.05)"
+                          : "rgba(255,255,255,0.15)",
+                        transform: "translateY(-2px)",
+                      },
+                    }}
+                  >
+                    {item.name}
+                  </Button>
+                </Link>
+              );
+            })}
 
             {isAuthenticated ? (
               <LoginButton

@@ -1,81 +1,108 @@
-import { Box, Stack, Typography, useMediaQuery } from "@mui/material";
 import React, { useContext, useState } from "react";
+import {
+  Box,
+  Stack,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import Dropdown from "../Components/HeroSection/Dropdown";
-import SelectButton from "../Components/HeroSection/SelectButton";
 import { categoriesList, LocationList } from "../utils/HeroSectionHelper";
 import { AuthContext } from "../Context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import SearchButton from "../Components/HeroSection/SearchButton";
+import image from "../assets/images/image7.jpg";
 
-const HeroSection = ({ title }) => {
+const HeroSection = () => {
+
   const { isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  // state variables for categories and location
   const [categories, setcategories] = useState("");
   const [location, setLocation] = useState("");
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const handleClick = () => {
-    if (categories !== "" && location !== "") {
-      if (isAuthenticated) {
-        return navigate("/events");
-      } else {
-        return navigate("/login");
-      }
+    if (categories && location) {
+      isAuthenticated ? navigate("/events") : navigate("/login");
     }
   };
 
   return (
     <Box
       sx={{
-        m:4,
-        height: isMobile ? "auto" : "340px",
-        p: 5,
-        background: "linear-gradient(120deg, #ffe4e1, #ffecd2, #fbd3e9)",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "flex-end",
-        alignItems: "center",
+        m: 4,
+        height: isMobile ? "auto" : "520px",
         borderRadius: "40px",
-        gap: 3,
+        overflow: "hidden",
+        position: "relative",
       }}
     >
-      <Typography
-        variant={isMobile ? "h5" : "h4"}
-        fontWeight="bold"
-        color="#333"
-        textAlign="center"
-        sx={{ fontFamily: "'Segoe UI', sans-serif" }}
-      >
-        {title ? "Our Wedding Venues" : "Your Wedding, Your Way"}
-      </Typography>
+      <img
+        src={image}
+        alt="hero"
+        width="100%"
+        height="100%"
+        style={{
+          objectFit: "cover",
+          borderRadius: "40px",
+        }}
+      />
 
-      <Stack
-        direction={isMobile ? "column" : "row"}
-        spacing={2}
-        justifyContent="center"
-        alignItems="center"
+      <Box
         sx={{
-          width: isMobile ? "100%" : "auto",
-          backgroundColor: "#fff",
-          padding: 2,
-          borderRadius: "25px",
-          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          background: "rgba(0, 0, 0, 0.4)",
+          color: "#fff",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          px: 3,
         }}
       >
-        <Dropdown
-          list={categoriesList}
-          value={categories}
-          setValue={setcategories}
-          label="Select Category"
-        />
-        <Dropdown
-          list={LocationList}
-          value={location}
-          setValue={setLocation}
-          label="Select Location"
-        />
-        <SelectButton handleClick={handleClick} />
-      </Stack>
+        <Typography
+          variant={isMobile ? "h5" : "h3"}
+          fontWeight="bold"
+          mb={2}
+        >
+          Your Wedding, Your Way
+        </Typography>
+
+        <Stack
+          direction={isMobile ? "column" : "row"}
+          spacing={2}
+          justifyContent="center"
+          alignItems="center"
+          sx={{
+            width: isMobile ? "100%" : "auto",
+            backgroundColor: "#fff",
+            padding: 2,
+            borderRadius: "25px",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.3)",
+            color: "#000",
+          }}
+        >
+          <Dropdown
+            list={categoriesList}
+            value={categories}
+            setValue={setcategories}
+            label="Select Category"
+          />
+          <Dropdown
+            list={LocationList}
+            value={location}
+            setValue={setLocation}
+            label="Select Location"
+          />
+          <SearchButton handleClick={handleClick} />
+        </Stack>
+      </Box>
     </Box>
   );
 };

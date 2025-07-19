@@ -1,11 +1,11 @@
 import { Box, Rating, Typography } from "@mui/material";
 import React from "react";
 
-const EventCard = ({ venue, setVenueClick }) => {
+const EventCard = ({ venue, setIsVenueClicked }) => {
   return (
     <>
       <Box
-        onClick={() => setVenueClick(true)}
+        onClick = {()=>setIsVenueClicked(true)}
         sx={{
           width: "300px",
           height: "350px",

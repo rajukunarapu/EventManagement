@@ -1,8 +1,8 @@
 import React from 'react'
 import { Box, Typography } from '@mui/material'
-import image from "../../../assets/images/image10.jpg"
+import image from "../../../assets/images/image5.jpg"
 
-const EventBackground = () => {
+const AdminHeroSection = () => {
   return (
     <Box
       sx={{
@@ -15,7 +15,7 @@ const EventBackground = () => {
     >
       <img
         src={image}
-        alt="event"
+        alt="admin background"
         width="100%"
         height="100%"
         style={{ objectFit: "cover", borderRadius: "40px" }}
@@ -28,7 +28,7 @@ const EventBackground = () => {
           left: 0,
           width: "100%",
           height: "100%",
-          background: "rgba(0, 0, 0, 0.35)",
+          background: "rgba(0, 0, 0, 0.4)",
           color: "#fff",
           display: "flex",
           flexDirection: "column",
@@ -39,14 +39,14 @@ const EventBackground = () => {
         }}
       >
         <Typography variant="h3" fontWeight="bold">
-          Discover Events
+          Admin Dashboard
         </Typography>
         <Typography variant="subtitle1" mt={1}>
-          Explore stunning venues and plan your next unforgettable experience with ease.
+          Effortlessly add, edit, or delete events to keep your platform up to date.
         </Typography>
       </Box>
     </Box>
   )
 }
 
-export default EventBackground
+export default AdminHeroSection;

@@ -20,7 +20,7 @@ const EventWrapper = () => {
   const ratingList = ["1", "2", "3", "4", "5"];
 
   // cliking the venue for book
-  const [venueClick, setVenueClick] = useState(false);
+  const [isVenueClicked, setIsVenueClicked] = useState(false);
 
   // Filtering logic
 
@@ -81,8 +81,7 @@ const EventWrapper = () => {
         <Grid container spacing={4} justifyContent="center">
           {filteredVenues.map((venue) => (
             <Grid item key={venue.id} xs={12} sm={6} md={4}>
-              <EventCard venue={venue} setVenueClick={setVenueClick} />
-              {venueClick && <BookingDialog venue={venue} open={venueClick} setVenueClick={setVenueClick} />}
+              <EventCard venue={venue} setIsVenueClicked={setIsVenueClicked} />
             </Grid>
           ))}
         </Grid>
@@ -93,6 +92,8 @@ const EventWrapper = () => {
           </Typography>
         )}
       </Box>
+
+       {isVenueClicked && <BookingDialog open={isVenueClicked} setIsVenueClicked={setIsVenueClicked} />}
     </>
   );
 };

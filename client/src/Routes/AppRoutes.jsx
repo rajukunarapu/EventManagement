@@ -6,7 +6,17 @@ import { useContext } from "react";
 import { AuthContext } from "../Context/AuthContext";
 
 const AppRoutes = () => {
-    const { isAuthenticated } = useContext(AuthContext);
+
+    // Form context object
+    const { isAuthenticated, loading } = useContext(AuthContext);
+
+    // For Loading while getting response from API after refresh 
+    if(loading){
+        return <PageLoading/>
+    }
+
+    console.log({isAuthenticated})
+    console.log({loading})
 
     const Home = lazy(() => import("../Pages/HomePage"));
     const Signup = lazy(() => import("../Pages/SignupPage"));
