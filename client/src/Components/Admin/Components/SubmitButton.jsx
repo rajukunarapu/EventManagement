@@ -1,18 +1,19 @@
 import React from "react";
 import { Button } from "@mui/material";
 
-const SubmitButton = ({handleSubmit, mt, label, color,}) => {
+const SubmitButton = ({handleSubmit, mt, label, color, isImageUploading}) => {
   return (
     <>
       <Button
       variant="contained"
-      color={color?color:"secondary"}
+      color={color}
       onClick={handleSubmit}
+      disabled={isImageUploading}
       sx={{
-        width : "200px",
+        width : "140px",
         mt : mt,
-        px: 5,
-        borderRadius: "10px",
+        px: 2,
+        borderRadius: "20px",
         color: "#fff",
         fontWeight: "bold",
         fontSize: "16px",

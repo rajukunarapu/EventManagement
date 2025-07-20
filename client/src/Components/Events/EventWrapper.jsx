@@ -1,46 +1,68 @@
-import { Box, Grid, Typography, Rating } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Box, Grid, Typography } from "@mui/material";
 import SharedDropDown from "./Components/SharedDropDown";
 import ContinueButton from "./Components/ContinueButton";
-import { venuesList } from "../../utils/venuesList"; // Contains 12 venues
 import BookingDialog from "./Components/BookingDialog";
 import EventCard from "./Components/EventCard";
+import { fetchingAddedEventsAPI } from "../../Services/FetchingAddedEventsAPI";
 
 const EventWrapper = () => {
-  // Drop down state variables
+  // State for dropdown filters
   const [guests, setGuests] = useState("");
   const [eventType, setEventType] = useState("");
   const [rating, setRating] = useState("");
-  // Filter the venues
-  const [filteredVenues, setFilteredVenues] = useState(venuesList);
 
-  // Dropdown contents
-  const guestList = ["upto 200", "200-500", "500-1000", "morethan 1000"];
-  const eventTypeList = ["Wedding", "Conference", "Concert", "Exhibition"];
-  const ratingList = ["1", "2", "3", "4", "5"];
+  // Events from server
+  const [fetchedDocuments, setFetchedDocuments] = useState([]);
+  const [filteredVenues, setFilteredVenues] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // cliking the venue for book
+  // Book dialog state
   const [isVenueClicked, setIsVenueClicked] = useState(false);
 
-  // Filtering logic
+  // Fetch events from server
+  useEffect(() => {
+    const fetchEvents = async () => {
+  
+        const res = await fetchingAddedEventsAPI();
+        if (res.success) {
+          setFetchedDocuments(res.eventData);
+          setLoading(false)
+        } else {
+          console.error("Error fetching events");
+        }
+    };
+    fetchEvents();
+  }, []);
 
+  // Update filtered venues when data is fetched
+  useEffect(() => {
+    setFilteredVenues(fetchedDocuments);
+  }, [fetchedDocuments]);
+
+  // Dropdown filter logic
   const handleClick = () => {
-    const filtered = venuesList.filter((venue) => {
+    const filtered = fetchedDocuments.filter((venue) => {
       return (
         (guests ? venue.guestCapacity === guests : true) &&
         (eventType ? venue.type === eventType : true) &&
         (rating ? String(venue.rating) === rating : true)
       );
     });
-    setFilteredVenues(filtered); // 
+    setFilteredVenues(filtered);
   };
+
+  // Dropdown options
+  const guestList = ["upto 200", "200-500", "500-1000", "morethan 1000"];
+  const eventTypeList = ["Wedding", "Conference", "Concert", "Exhibition"];
+  const ratingList = ["1", "2", "3", "4", "5"];
 
   return (
     <>
-      {/* Filter Section */}
+      {/* Filters */}
       <Box
         sx={{
-          background: "linear-gradient(90deg, #ffecd2 0%, #fcb69f 100%)",
+          background: "linear-gradient(90deg, #76bf1dff 0%, #239fb0ff 100%)",
           p: 3,
           display: "flex",
           flexWrap: "wrap",
@@ -48,7 +70,7 @@ const EventWrapper = () => {
           justifyContent: "center",
           borderRadius: 2,
           boxShadow: 2,
-          m: 2,
+          m: 4,
         }}
       >
         <SharedDropDown
@@ -78,22 +100,33 @@ const EventWrapper = () => {
           Best Event Venues for You
         </Typography>
 
-        <Grid container spacing={4} justifyContent="center">
-          {filteredVenues.map((venue) => (
-            <Grid item key={venue.id} xs={12} sm={6} md={4}>
-              <EventCard venue={venue} setIsVenueClicked={setIsVenueClicked} />
-            </Grid>
-          ))}
-        </Grid>
-
-        {filteredVenues.length === 0 && (
+        {loading ? (
+          <Typography textAlign="center">Loading venues...</Typography>
+        ) : filteredVenues.length > 0 ? (
+          <Grid container spacing={4} justifyContent="center">
+            {filteredVenues.map((venue) => (
+              <Grid item key={venue._id || venue.id} xs={12} sm={6} md={4}>
+                <EventCard
+                  venue={venue}
+                  setIsVenueClicked={setIsVenueClicked}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        ) : (
           <Typography textAlign="center" mt={4} color="gray">
             No venues match your filters. Try changing the filters.
           </Typography>
         )}
       </Box>
 
-       {isVenueClicked && <BookingDialog open={isVenueClicked} setIsVenueClicked={setIsVenueClicked} />}
+      {/* Booking Dialog */}
+      {isVenueClicked && (
+        <BookingDialog
+          open={isVenueClicked}
+          setIsVenueClicked={setIsVenueClicked}
+        />
+      )}
     </>
   );
 };

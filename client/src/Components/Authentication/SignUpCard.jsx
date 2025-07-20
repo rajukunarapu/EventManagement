@@ -13,7 +13,7 @@ import { AuthContext } from "../../Context/AuthContext";
 const SignUpCard = () => {
 
   const navigate = useNavigate();
-  const { authCheck, setUserData } = useContext(AuthContext)
+  const { authCheck } = useContext(AuthContext)
 
   const [fullName, setfullName] = useState("");
   const [emailId, setemailId] = useState("");
@@ -44,7 +44,8 @@ const SignUpCard = () => {
       if (data.success) {
         setemailId("");
         setpassword("");
-        setUserData(data.userData)
+        localStorage.setItem('userData', JSON.stringify(data.userData))
+        // setUserData(data.userData)
         await authCheck();
         navigate("/");
       }

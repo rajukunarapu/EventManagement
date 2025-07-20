@@ -8,7 +8,7 @@ const EventBackground = () => {
       sx={{
         height: "520px",
         m: 4,
-        borderRadius: "40px",
+        borderRadius: "20px",
         overflow: "hidden",
         position: "relative",
       }}
@@ -18,7 +18,7 @@ const EventBackground = () => {
         alt="event"
         width="100%"
         height="100%"
-        style={{ objectFit: "cover", borderRadius: "40px" }}
+        style={{ objectFit: "cover", borderRadius: "20px" }}
       />
 
       <Box

@@ -14,7 +14,7 @@ exports.addEventController = async (req, res) => {
         guestCapacityValidation(guestCapacity)
         ratingValidation(rating)
 
-        const document = await Event.create({
+        await Event.create({
             name,
             location,
             image,
@@ -23,11 +23,27 @@ exports.addEventController = async (req, res) => {
             rating,
         });
 
-        res.json({ message: "Event successfully added", success: true, data: document });
+        const eventDocs = await Event.find()
+
+        res.json({ message: "Event successfully added", success: true, eventDocument: eventDocs });
     } catch (error) {
         res.status(400).json({ message: error.message, success: false });
     }
 };
+
+// Getting all events
+exports.fetchingEventsController = async(req,res)=>{
+    try{
+        const events = await Event.find();
+        if(!events){
+            return res.status(404).json({message : "events not found", success : false})
+        }
+        res.json({ message : "Events sent successfullly", success : true, eventDocument : events })
+
+    }catch(error){
+        res.status(400).json({ message : error.message, success : false })
+    }
+}
 
 // Edit Existing Event (by ID)
 exports.editEventController = async (req, res) => {

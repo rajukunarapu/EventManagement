@@ -33,7 +33,7 @@ const HeroSection = () => {
       sx={{
         m: 4,
         height: isMobile ? "auto" : "520px",
-        borderRadius: "40px",
+        borderRadius: "20px",
         overflow: "hidden",
         position: "relative",
       }}
@@ -45,7 +45,7 @@ const HeroSection = () => {
         height="100%"
         style={{
           objectFit: "cover",
-          borderRadius: "40px",
+          borderRadius: "20px",
         }}
       />
 

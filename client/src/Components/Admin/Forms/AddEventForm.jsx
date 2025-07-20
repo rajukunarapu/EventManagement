@@ -1,25 +1,33 @@
-import { Alert, Box, IconButton } from "@mui/material";
-import React, { useState } from "react";
+import { Alert, Box, IconButton, Stack, Typography } from "@mui/material";
+import { useState } from "react";
 import TextTypeField from "../Components/TextTypeField";
 import DropdownType from "../Components/DropdownType";
 import SubmitButton from "../Components/SubmitButton";
 import { addEventAPI } from "../../../Services/addEventAPI";
 import { Close } from "@mui/icons-material";
+import ImageGrabber from "../Components/ImageGrabber";
 
-const AddEventForm = ({ setAddEventFormOpen }) => {
+const AddEventForm = ({ setAddEventFormOpen, fetchData }) => {
   // State variables for grabbing input from user
   const [type, setType] = useState("");
   const [guestCapacity, setGuestCapacity] = useState("");
   const [rating, setRating] = useState("");
+  const [image, setImage] = useState("")
+
+  //uploading image takes some time
+  const [isImageUploading, setIsImageUploading] = useState(false)
+
   const [formData, setFormData] = useState({
     name: "",
     location: "",
-    image: "",
   });
 
   // successfull addevent alert message
   const [isSuccess, setIsSuccess] = useState(false);
   const [addEventAlertMessage, setaddEventAlertMessage] = useState("");
+
+  // For showing error message also from server
+  const [isAlertShowForAPI, setIsAlertShowForAPI] = useState(false)
 
   // alert message for empty from submission
   const [isEmptyFormSubmit, setIsEmptyFormSubmit] = useState(false)
@@ -32,33 +40,39 @@ const AddEventForm = ({ setAddEventFormOpen }) => {
     }));
   };
 
+
+
   // payload for API
-  const data = { ...formData, type, guestCapacity, rating };
+  const data = { ...formData, type, guestCapacity, rating, image };
 
   const handleSubmit = async (e) => {
+    // Showing Alert when all fields are empty while clicking 
     setIsEmptyFormSubmit(true)
     e.preventDefault();
     if (
       formData.name !== "" &&
       formData.location !== "" &&
-      formData.image !== "" &&
+      image !== "" &&
       type !== "" &&
       guestCapacity !== "" &&
       rating !== ""
     ) {
+      // If every field is given, then no need to show alert
       setIsEmptyFormSubmit(false)
       const res = await addEventAPI(data);
+      setIsAlertShowForAPI(true)
       setIsSuccess(res.success);
       setaddEventAlertMessage(res.message);
       if (res.success) {
         setFormData({
           name: "",
-          location: "",
-          image: "",
+          location: ""
         });
+        setImage("")
         setType("");
         setGuestCapacity("");
         setRating("");
+        await fetchData();
       }
     }
   };
@@ -124,18 +138,19 @@ const AddEventForm = ({ setAddEventFormOpen }) => {
             value={rating}
             setValue={setRating}
           />
+
           {/* Image */}
-          <TextTypeField
-            label={"Provide image URL"}
-            name={"image"}
-            value={formData.image}
-            handleChange={handleChange}
-          />
+          <Stack direction={"row"} spacing={4} alignItems={"center"} >
+            <Typography variant="body1" color="black" fontWeight={"bold"} >Upload the image</Typography>
+            <ImageGrabber setImage={setImage} setIsImageUploading={setIsImageUploading} />
+          </Stack>
+          
 
           {/* Submit Button */}
           <SubmitButton
             handleSubmit={handleSubmit}
-            mt={1}
+            isImageUploading={isImageUploading}
+            mt={2}
             label={"continue"}
             color={"success"}
           />
@@ -143,6 +158,7 @@ const AddEventForm = ({ setAddEventFormOpen }) => {
           {/* Alert Message For Empty form submission */}
           {isEmptyFormSubmit && (
             <Alert
+            onClose={()=>setIsEmptyFormSubmit(false)}
               severity={"error"}
               sx={{ mt:2, width: "250px" }}
             >
@@ -151,9 +167,9 @@ const AddEventForm = ({ setAddEventFormOpen }) => {
           )}
 
           {/* Alert Message after submit the form */}
-          {isSuccess && (
+          {isAlertShowForAPI && (
             <Alert
-            onClick={()=>setIsSuccess(false)}
+            onClose={()=>setIsAlertShowForAPI(false)}
               severity={isSuccess ? "success" : "error"}
               sx={{ mt:2, width: "250px" }}
             >

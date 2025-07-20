@@ -9,7 +9,8 @@ import ProtectedMessage from "../Components/Protected/ProtectedMessage";
 const AppRoutes = () => {
 
     // Form context object
-    const { isAuthenticated, loading, userData } = useContext(AuthContext);
+    const { isAuthenticated, loading } = useContext(AuthContext);
+    const userData = JSON.parse(localStorage.getItem('userData'))
 
     // For Loading while getting response from API after refresh 
     if(loading){
@@ -17,7 +18,6 @@ const AppRoutes = () => {
     }
 
     console.log({isAuthenticated})
-    console.log({loading})
 
     const Home = lazy(() => import("../Pages/HomePage"));
     const Signup = lazy(() => import("../Pages/SignupPage"));
@@ -36,7 +36,7 @@ const AppRoutes = () => {
                         <Route
                             path="/admin"
                             element={
-                                isAuthenticated ? (userData.role ==="admin" ? <Admin/> : <ProtectedMessage/>) : <Navigate to="/login" replace />
+                                isAuthenticated ? ( userData &&  userData.role ==="admin" ? <Admin/> : <ProtectedMessage/>) : <Navigate to="/login" replace />
                             }
                         />
                         <Route

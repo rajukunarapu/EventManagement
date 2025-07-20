@@ -1,13 +1,11 @@
 import React from "react";
 import {
   Box,
-  FormControl,
-  InputLabel,
+  TextField,
   MenuItem,
-  Select,
   useTheme,
 } from "@mui/material";
-import { ExpandMore } from "@mui/icons-material";
+// import { ExpandMore } from "@mui/icons-material";
 
 const SharedDropDown = ({ list, value, setValue, label }) => {
   const theme = useTheme();
@@ -18,7 +16,7 @@ const SharedDropDown = ({ list, value, setValue, label }) => {
         width: 200,
         mb: 1,
         "& .MuiInputBase-root": {
-          borderRadius: "50px",
+          borderRadius: "10px",
           backgroundColor: "#f9f9f9",
           fontWeight: 500,
           transition: "0.3s",
@@ -31,32 +29,21 @@ const SharedDropDown = ({ list, value, setValue, label }) => {
         },
       }}
     >
-      <FormControl fullWidth variant="outlined" size="small">
-        <InputLabel
-          sx={{
-            fontWeight: 500,
-            color: "#888",
-            "&.Mui-focused": {
-              color: theme.palette.primary.main,
-            },
-          }}
-        >
-          {label}
-        </InputLabel>
-
-        <Select
-          value={value}
-          label={label}
-          onChange={(e) => setValue(e.target.value)}
-          IconComponent={ExpandMore}
-        >
-          {list.map((item, idx) => (
-            <MenuItem key={idx} value={item}>
-              {item}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      <TextField
+        select
+        label={label}
+        variant="outlined"
+        fullWidth
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        required
+      >
+        {list.map((option) => (
+          <MenuItem key={option} value={option}>
+            {option}
+          </MenuItem>
+        ))}
+      </TextField>
     </Box>
   );
 };
