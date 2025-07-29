@@ -7,23 +7,28 @@ import EventCard from "./Components/EventCard";
 import { fetchingAddedEventsAPI } from "../../Services/FetchingAddedEventsAPI";
 
 const EventWrapper = () => {
-  // State for dropdown filters
+
+  // state variables for filters
+  // These will be used to filter the events based on user selection
   const [guests, setGuests] = useState("");
   const [eventType, setEventType] = useState("");
   const [rating, setRating] = useState("");
 
-  // Events from server
+  // State for fetched documents and filtered venues  
   const [fetchedDocuments, setFetchedDocuments] = useState([]);
   const [filteredVenues, setFilteredVenues] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Book dialog state
+  // State to manage the booking dialog visibility
+  // This will be set to true when a venue card is clicked
   const [isVenueClicked, setIsVenueClicked] = useState(false);
 
-  // Fetch events from server
+  // Fetch events when the component mounts
+  // This will call the API to get the list of events
   useEffect(() => {
     const fetchEvents = async () => {
-  
+      setLoading(true);
+      // Fetching events from the API   
         const res = await fetchingAddedEventsAPI();
         if (res.success) {
           setFetchedDocuments(res.eventData);
@@ -35,12 +40,13 @@ const EventWrapper = () => {
     fetchEvents();
   }, []);
 
-  // Update filtered venues when data is fetched
+  // Update filtered venues when fetched documents change
+  // This will ensure that the displayed venues are always up-to-date with the fetched data
   useEffect(() => {
     setFilteredVenues(fetchedDocuments);
   }, [fetchedDocuments]);
 
-  // Dropdown filter logic
+  // Function to handle the filter button click
   const handleClick = () => {
     const filtered = fetchedDocuments.filter((venue) => {
       return (
@@ -62,7 +68,7 @@ const EventWrapper = () => {
       {/* Filters */}
       <Box
         sx={{
-          background: "linear-gradient(90deg, #76bf1dff 0%, #239fb0ff 100%)",
+          background: "linear-gradient(90deg, #f1ea27ff, #DD2476  )",
           p: 3,
           display: "flex",
           flexWrap: "wrap",

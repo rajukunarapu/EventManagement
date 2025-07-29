@@ -30,13 +30,13 @@ const LoginButton = ({label, mode,  setlogoutAlertShow}) => {
         variant="contained"
         onClick={handleClick}
         sx={{
-          background: "linear-gradient(135deg, #f1ea27ff, #DD2476)",
+          background: "linear-gradient(135deg, #FF512F, #DD2476)",
           color: "#fff",
           fontWeight: "bold",
           textTransform: "none",
           px: 3,
           borderRadius: "30px",
-          boxShadow: "0 6px 15px rgba(255, 81, 47, 0.4)",
+          // boxShadow: "0 6px 15px rgba(255, 81, 47, 0.4)",
           transition: "all 0.3s ease",
           "&:hover": {
             background: "linear-gradient(135deg, #DD2476, #FF512F)",

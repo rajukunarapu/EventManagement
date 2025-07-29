@@ -22,11 +22,17 @@ const AdminMainWrapper = () => {
   // Event data from server
   const [eventData, setEventData] = useState([])
 
+  //loading state for fetching events
+  const [loading, setLoading] = useState(true);
+
   // Event data from server
   const fetchData = async () => {
+    setLoading(true);
+    // Fetching events from the API
     const res = await fetchingAddedEventsAPI();
     if (res.success) {
       setEventData(res.eventData);
+      setLoading(false);  
     }
   };
 
@@ -68,7 +74,7 @@ const AdminMainWrapper = () => {
         </Paper>
       </Box>
 
-      <AddedEvents eventData={eventData} />
+      <AddedEvents eventData={eventData} loading={loading} />
 
     </>
   );

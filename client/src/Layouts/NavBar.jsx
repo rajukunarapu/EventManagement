@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import {
   AppBar,
   Box,
@@ -20,7 +20,6 @@ const NavBar = () => {
   // showing logout alert
   const [logoutAlertShow, setlogoutAlertShow] = useState(false);
   // For changing background of navbar
-  const [scrolled, setScrolled] = useState(false);
 
   const navLinks = [
     { id: 1, name: "Home", to: "/" },
@@ -28,33 +27,18 @@ const NavBar = () => {
     { id: 3, name: "Venues", to: "/events" },
   ];
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 10) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
     <>
       <AppBar
         position="sticky"
-        elevation={scrolled ? 4 : 0}
+        elevation={4}
         sx={{
-          background: scrolled
-            ? "#ffffff"
-            : "linear-gradient(to right, #1f1c2c, #928dab, #3a3a52, #373b44)",
+          background: "#ffffff",
           transition: "background 0.3s ease-in-out",
           px: { xs: 2, md: 5 },
           py: 1,
           overflowY: "hidden",
-          color: scrolled ? "#000" : "#fff",
+          color: "#fff",
         }}
       >
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -63,7 +47,7 @@ const NavBar = () => {
               width="40"
               height="45"
               viewBox="0 0 25 25"
-              fill={scrolled ? "#70ca40" : "#3ca918ff"}
+              fill={"#da1748ff"}
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
@@ -72,7 +56,7 @@ const NavBar = () => {
                 clipRule="evenodd"
               />
             </svg>
-            <Typography variant="h5" fontWeight={"bolder"}>
+            <Typography variant="h5" fontWeight={"bolder"} color={"black"}> 
               Tinder
             </Typography>
           </Stack>
@@ -94,23 +78,19 @@ const NavBar = () => {
                 >
                   <Button
                     sx={{
-                      color: scrolled ? "#000" : "#fff",
+                      color:"#000",
                       fontWeight: 500,
                       textTransform: "capitalize",
                       borderRadius: 2,
                       borderBottom: isActive
-                        ? `3px solid ${scrolled ? "#000" : "#fff"}`
+                        ? `3px solid red`
                         : "none",
                       backgroundColor: isActive
-                        ? scrolled
-                          ? "#f0f0f0"
-                          : "rgba(255,255,255,0.2)"
+                        ? "#f0f0f0"
                         : "transparent",
                       transition: "all 0.3s ease",
                       "&:hover": {
-                        backgroundColor: scrolled
-                          ? "rgba(0,0,0,0.05)"
-                          : "rgba(255,255,255,0.15)",
+                        backgroundColor: "rgba(0,0,0,0.05)",
                         transform: "translateY(-2px)",
                       },
                     }}
